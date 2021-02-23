@@ -19,9 +19,6 @@ jobs:
       # docker_layer_caching: true    # default - false # requires a Circle CI plan that includes [Docker layer caching feature]
     environment:
       DESIRED_DOCKER_TAG: 5.27.1
-    # working_directory: /mnt/ramdisk
-    environment:
-      CCCCCC: << pipeline.parameters.cccc >>
     steps:
       # - secrethub/install
       - checkout
