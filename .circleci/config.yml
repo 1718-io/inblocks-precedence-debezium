@@ -4,7 +4,7 @@ parameters:
   gio_action:
     type: enum
     enum: [cicd_test1, cicd_test2, blank]
-    default: cicd_test2
+    default: cicd_test1
   cccc:
     type: string
     default: "78.15.42"
