@@ -1,0 +1,63 @@
+version: 2.1
+
+parameters:
+  gio_action:
+    type: enum
+    enum: [cicd_test1, cicd_test2, blank]
+    default: cicd_test2
+  cccc:
+    type: string
+    default: "78.15.42"
+orbs:
+  secrethub: secrethub/cli@1.1
+  docker: circleci/docker@1.5.0
+jobs:
+  cicd_test1_job1:
+    machine:
+      image: 'ubuntu-1604:201903-01'    # recommended linux image - includes Ubuntu 16.04, docker 18.09.3, docker-compose 1.23.1
+      resource_class: medium
+      # docker_layer_caching: true    # default - false # requires a Circle CI plan that includes [Docker layer caching feature]
+    environment:
+      DESIRED_DOCKER_TAG: 5.27.1
+    # working_directory: /mnt/ramdisk
+    environment:
+      CCCCCC: << pipeline.parameters.cccc >>
+    steps:
+      # - secrethub/install
+      - checkout
+      - docker/install-docker
+      - docker/install-docker-compose
+      - run:
+          name: "Test Docker Compose"
+          command: |
+                    docker --version
+                    docker-compose --version
+                    exit 0
+      - run:
+          name: "Run Inblocks Docker Compose"
+          command: |
+                    echo "Run Inblocks Docker Compose"
+                    
+workflows:
+  version: 2.1
+  cicd_test1_wf:
+    when:
+      equal: [ cicd_test1, << pipeline.parameters.gio_action >> ]
+    jobs:
+      - cicd_test1_job1:
+          context: cicd-orchestrator
+      # - cicd_test1_job2:
+          # requires:
+            # - cicd_test1_job1
+          # context: cicd-orchestrator
+
+  # cicd_test2_wf:
+    # when:
+      # equal: [ cicd_test2, << pipeline.parameters.gio_action >> ]
+    # jobs:
+      # - cicd_test2_job1:
+          # context: cicd-orchestrator
+      # - cicd_test2_job2:
+          # requires:
+            # - cicd_test2_job1
+          # context: cicd-orchestrator
