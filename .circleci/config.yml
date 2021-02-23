@@ -41,7 +41,7 @@ workflows:
     when:
       equal: [ cicd_test1, << pipeline.parameters.gio_action >> ]
     jobs:
-      - cicd_test1_job1:
+      - cicd_test1_job1
           # context: cicd-orchestrator
       # - cicd_test1_job2:
           # requires:
