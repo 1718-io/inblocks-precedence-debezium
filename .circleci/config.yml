@@ -34,6 +34,15 @@ jobs:
           name: "Run Inblocks Docker Compose"
           command: |
                     echo "Run Inblocks Docker Compose"
+                    docker pull inblocks/precedence-debezium
+                    docker run --rm \
+                        --network host \
+                        -e PRECEDENCE_API=http://localhost:9000 \
+                        -e PRECEDENCE_APPLICATION_ID=precedence-demo-inventory \
+                        -e PRECEDENCE_BOOTSTRAP_SERVERS=localhost:9093 \
+                        -e PRECEDENCE_INPUT_TOPIC_PATTERN=^demo\.inventory\..* \
+                        -e PRECEDENCE_STORE=true \
+                        inblocks/precedence-debezium
                     
 workflows:
   version: 2.1
